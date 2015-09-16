@@ -1,0 +1,33 @@
+#!/usr/bin/env php
+<?php
+/**
+ * Unity Runner
+ *
+ * (c) Tom Morton
+ *
+ */
+
+require 'vendor/autoload.php';
+
+use Symfony\Component\Console\Application;
+
+// Error handling
+$runner = new \League\BooBoo\Runner();
+$runner->pushFormatter(new \League\BooBoo\Formatter\CommandLineFormatter);
+$runner->register();
+
+// Using League's CLImate for Output
+$climate = new \League\CLImate\CLImate;
+
+// Load the Composer file for Unity
+$unityComposer = \Unity\Unity::getComposerFile();
+
+// Instantiate Unity
+$unity = new \Unity\Unity(__DIR__, $unityComposer->version);
+$unity->setOutputClass($climate);
+
+// Console Commands
+$application = new Application('Unity', $unityComposer->version);
+$application->add(new \Unity\Command\TestsCommand($unity));
+$application->add(new \Unity\Command\RunCommand($unity));
+$application->run();

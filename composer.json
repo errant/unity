@@ -1,0 +1,34 @@
+{
+    "name": "errant/unit",
+    "description": "PHP Unit Testing Framework",
+    "version": "1.0.0-alpha",
+    "type": "library",
+    "license": "MIT",
+    "keywords": [
+        "unit testing",
+        "php",
+        "testing"
+    ],
+    "authors": [
+        {
+            "name": "Tom Morton",
+            "email": "tom@errant.me.uk"
+        }
+    ],
+    "require": {
+        "league/climate"    : "3.2.*",
+        "league/booboo"     : "1.0.*",
+        "league/event"      : "2.1.*",
+        "symfony/console"   : "2.7.*",
+        "symfony/finder"    : "2.7.*",
+        "symfony/stopwatch" : "2.7.*"
+    },
+    "require-dev": {
+    },
+    "autoload": {
+        "classmap": ["src/"]
+    },
+    "bin": [
+        "unity"
+    ]
+}
