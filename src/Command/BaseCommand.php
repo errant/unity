@@ -2,12 +2,22 @@
 namespace Unity\Command;
 
 use Symfony\Component\Console\Command\Command;
+use Interop\Container\ContainerInterface;
+use Unity\Container\ServiceInterface;
+use Unity\Container\ServiceTrait;
 
 /**
  *
  */
-abstract class BaseCommand extends Command
+abstract class BaseCommand extends Command implements ServiceInterface
 {
+    use ServiceTrait;
+
+    public static function register(ContainerInterface $c)
+    {
+        $c->get('command')->add(new static($c));
+    }
+
     public function __construct(\Unity\Unity $unity)
     {
         parent::__construct();

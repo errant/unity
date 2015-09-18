@@ -2,7 +2,7 @@
 namespace Unity\Loader;
 use Symfony\Component\Finder\Finder;
 /**
- * Load an Individual Test
+ * Load an Individual Test Suite
  */
 class Test {
 
@@ -24,19 +24,7 @@ class Test {
 
     public function describe()
     {
-        $write = $this->unity->output();
-        $write->inline($this->getName())
-              ->tab();
 
-        $size = $this->getSize();
-        if($size == '>5MB') {
-            $write->red()->inline($size)->tab();
-        } else {
-            $write->red()->inline($size)->tab();
-        }
-
-        $write->inline('tests');
-        $write->break();
     }
 
     public function getSize()
@@ -63,7 +51,15 @@ class Test {
             $this->load();
         }
 
-        return array_filter(get_class_methods($this->name),  );
+        // Extract test methods
+        $tests = array_filter(get_class_methods($this->name),  function($method) {
+            return strpos($method, 'test') === 0;
+        });
+
+        // Prefix uppercase characters with underscore
+        $tests = array_map(function($method) { return preg_replace('/(?<!^)([A-Z])/', '-\\1', $method);}, $tests);
+
+
     }
     public function getName()
     {

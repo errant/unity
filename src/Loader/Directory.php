@@ -24,7 +24,7 @@ class Directory {
                               ->in($directory);
 
         foreach($this->directory as $testFile) {
-            $this->tests[] = new \Unity\Loader\Test($this->unity, $testFile);
+            $this->tests[] = new \Unity\Loader\TestSuite($this->unity, $testFile);
         }
     }
 

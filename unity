@@ -9,7 +9,11 @@
 
 require 'vendor/autoload.php';
 
-use Symfony\Component\Console\Application;
+
+use Unity\Event;
+use Unity\CommandRunner;
+use Unity\Command\TestsCommand;
+use Unity\Command\RunCommand;
 
 // Error handling
 $runner = new \League\BooBoo\Runner();
@@ -24,10 +28,15 @@ $unityComposer = \Unity\Unity::getComposerFile();
 
 // Instantiate Unity
 $unity = new \Unity\Unity(__DIR__, $unityComposer->version);
-$unity->setOutputClass($climate);
+
+// Register the Event Class
+Event::register($unity);
+
+// Register the Command Class
+CommandRunner::registerService($unity);
 
 // Console Commands
-$application = new Application('Unity', $unityComposer->version);
-$application->add(new \Unity\Command\TestsCommand($unity));
-$application->add(new \Unity\Command\RunCommand($unity));
-$application->run();
+TestsCommand::register($unity);
+RunCommand::register($unity);
+
+$unity->get('command')->run();

@@ -9,8 +9,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  *
  */
-class TestsCommand extends BaseCommand
-{
+class TestsCommand extends BaseCommand {
+
     protected function configure()
     {
         $this
