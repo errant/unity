@@ -24,8 +24,8 @@ class TestsCommand extends BaseCommand {
     {
         $dir = new \Unity\Loader\Directory($this->unity, $this->unity->baseDir . '/tests');
 
-        foreach($dir->getTests() as $test) {
-            $test->describe();
+        foreach($dir->getTests() as $testSuite) {
+            $testSuite->getTests();
         }
     }
 }

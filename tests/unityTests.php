@@ -1,5 +1,8 @@
 <?php
 
-class UnitTests {
-    
+class unityTests {
+    public function testSomething()
+    {
+
+    }
 }

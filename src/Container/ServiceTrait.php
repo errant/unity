@@ -38,7 +38,8 @@ trait ServiceTrait {
      */
     public static function provides()
     {
-        return strtolower(get_class());
+        $class = new \ReflectionClass(get_class());
+        return strtolower($class->getShortName());
     }
 
     /**

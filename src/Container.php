@@ -20,15 +20,17 @@ class Container implements ContainerInterface {
             throw new NotFoundException($id);
         }
 
-        if(is_object($this->services[$id])) {
-            return $this->services[$id];
+        $service = $this->services[$id];
+
+        // Object but NOT a closure
+        if(is_object($service)  && !($service instanceof \Closure)) {
+            return $service;
         }
 
-        if(!is_callable($this->services[$id])) {
+        if(!is_callable($service)) {
             throw new ContainerException($id . ' has no valid service expression');
         }
-
-        return call_user_func($this->services[$id]);
+        return call_user_func($service);
     }
 
     public function has($id)

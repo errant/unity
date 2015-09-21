@@ -2,6 +2,8 @@
 namespace Unity\Command;
 
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 use Interop\Container\ContainerInterface;
 use Unity\Container\ServiceInterface;
 use Unity\Container\ServiceTrait;
@@ -15,18 +17,19 @@ abstract class BaseCommand extends Command implements ServiceInterface
 
     public static function register(ContainerInterface $c)
     {
-        $c->get('command')->add(new static($c));
+        $c->get('command')->add(new static($c, $c->get('event')));
     }
 
-    public function __construct(\Unity\Unity $unity)
+    public function __construct(\Unity\Unity $unity, $event)
     {
         parent::__construct();
 
         $this->unity = $unity;
+        $this->event = $event;
     }
 
     protected function initialize(InputInterface $input, OutputInterface $output)
     {
-        $this->unity->emit('command.execute', $this->getName());
+        $this->event->emit('command.execute', $this->getName());
     }
 }

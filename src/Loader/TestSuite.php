@@ -4,7 +4,7 @@ use Symfony\Component\Finder\Finder;
 /**
  * Load an Individual Test Suite
  */
-class Test {
+class TestSuite {
 
     public function __construct($unity, $filePath)
     {
@@ -51,14 +51,29 @@ class Test {
             $this->load();
         }
 
+        //if(!is_subclass_of($this->name, '\Unity\TestSuite')) {
+        // TODO HANDLE THIS CASE
+        //}
+
+        // Check that the class has methods
+        if(($methods = get_class_methods($this->name)) == NULL) {
+            return array();
+        }
+
         // Extract test methods
-        $tests = array_filter(get_class_methods($this->name),  function($method) {
+        $tests = array_filter($methods,  function($method) {
             return strpos($method, 'test') === 0;
         });
 
         // Prefix uppercase characters with underscore
-        $tests = array_map(function($method) { return preg_replace('/(?<!^)([A-Z])/', '-\\1', $method);}, $tests);
+        $tests = array_map(function($method) {
+            return strtolower(
+                        preg_replace('/(?<!^)([A-Z])/', '_\\1', $method)
+                    );
+            }
+            , $tests);
 
+        return $tests;
 
     }
     public function getName()
