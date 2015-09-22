@@ -61,17 +61,14 @@ class TestSuite {
         }
 
         // Extract test methods
-        $tests = array_filter($methods,  function($method) {
+        $testMethods = array_filter($methods,  function($method) {
             return strpos($method, 'test') === 0;
         });
 
-        // Prefix uppercase characters with underscore
-        $tests = array_map(function($method) {
-            return strtolower(
-                        preg_replace('/(?<!^)([A-Z])/', '_\\1', $method)
-                    );
-            }
-            , $tests);
+        foreach($testMethods as $method) {
+            $name = strtolower(preg_replace('/(?<!^)([A-Z])/', '_\\1', $method));
+            $tests[$name] =  $method;
+        }
 
         return $tests;
 

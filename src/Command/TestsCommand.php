@@ -25,7 +25,11 @@ class TestsCommand extends BaseCommand {
         $dir = new \Unity\Loader\Directory($this->unity, $this->unity->baseDir . '/tests');
 
         foreach($dir->getTests() as $testSuite) {
-            $testSuite->getTests();
+            echo $testSuite->getName() . "\n";
+            foreach($testSuite->getTests() as $name => $method) {
+                echo '     - ' . ucfirst(str_replace('_', ' ', $name)) . ' [' . $testSuite->getName() . '::' . $method . "]\n";
+            }
+
         }
     }
 }
