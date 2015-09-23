@@ -11,6 +11,9 @@ require 'vendor/autoload.php';
 
 
 use Unity\Event;
+use Unity\Config;
+use Unity\Config\ConsoleConfig;
+use Unity\Config\UserConfig;
 use Unity\CommandRunner;
 use Unity\Command\TestsCommand;
 use Unity\Command\RunCommand;
@@ -28,6 +31,11 @@ $unityComposer = \Unity\Unity::getComposerFile();
 
 // Instantiate Unity
 $unity = new \Unity\Unity(__DIR__, $unityComposer->version);
+
+// Configuration
+Config::register($unity);
+$unity->config->attach(new ConsoleConfig(),10);
+$unity->config->attach(new UserConfig());
 
 // Register the Event Class
 Event::register($unity);
