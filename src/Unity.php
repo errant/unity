@@ -1,6 +1,7 @@
 <?
 namespace Unity;
 
+use Unity\Test\TestInterface;
 
 /**
  * Unity Core Class
@@ -22,10 +23,27 @@ class Unity extends Container {
     {
         $this->baseDir = $baseDir;
         $this->version = $version;
+
+        // The Test Stack, a core aspect of Unity
+        Stack::register();
     }
+
+    // Getters
 
     public function getVersion()
     {
         return $this->version;
+    }
+
+    // Stack
+
+    /**
+     * Pushes Test To Stack
+     *
+     * @param  TestInterface $test Test Object
+     */
+    public function pushTest(TestInterface $test)
+    {
+        $this->stack->push($test);
     }
 }

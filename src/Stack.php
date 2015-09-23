@@ -1,7 +1,18 @@
 <?
 namespace Unity;
 
-class Stack {
+use Unity\Container\ServiceTrait;
+use Unity\Container\ServiceInterface;
+
+/**
+ * Unity Test Stack
+ *
+ * The test stack is the core of Unity's Test Runner
+ *
+ * Tests are processed from the stack
+ */
+class Stack implements ServiceInterface {
+    use ServiceTrait;
 
     protected $testsStack;
 
