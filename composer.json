@@ -27,7 +27,7 @@
     "require-dev": {
     },
     "autoload": {
-        "classmap": ["src/"]
+        "psr-4": {"Unity\\" : "src/"}
     },
     "bin": [
         "unity"
