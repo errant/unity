@@ -25,7 +25,7 @@ class Unity extends Container {
         $this->version = $version;
 
         // The Test Stack, a core aspect of Unity
-        Stack::register();
+        Stack::register($this);
     }
 
     // Getters
