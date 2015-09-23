@@ -14,6 +14,14 @@ class Container implements ContainerInterface {
 
     public $services = array();
 
+    /**
+     * Get Service
+     *
+     * @param  string $id Service Name
+     * @return object     Service
+     * @throws NotFoundException when no service exists for ID
+     * @throws ContainerException when service cannot be loaded
+     */
     public function get($id)
     {
         if(!$this->has($id)) {
@@ -31,6 +39,20 @@ class Container implements ContainerInterface {
             throw new ContainerException($id . ' has no valid service expression');
         }
         return call_user_func($service);
+    }
+
+    /**
+     * Magic Getters
+     *
+     * Allows access to services via ->service
+     * @param  string $id Service Name
+     * @return object     Service
+     * @throws NotFoundException when no service exists for ID
+     * @throws ContainerException when service cannot be loaded
+     */
+    public function __get($id)
+    {
+        return $this->get($id);
     }
 
     public function has($id)
