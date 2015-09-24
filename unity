@@ -17,6 +17,7 @@ use Unity\Config\UserConfig;
 use Unity\CommandRunner;
 use Unity\Command\TestsCommand;
 use Unity\Command\RunCommand;
+use Unity\Command\ConfigCommand;
 
 // Error handling
 $runner = new \League\BooBoo\Runner();
@@ -34,8 +35,8 @@ $unity = new \Unity\Unity(__DIR__, $unityComposer->version);
 
 // Configuration
 Config::register($unity);
-$unity->config->attach(new ConsoleConfig(),10);
-$unity->config->attach(new UserConfig());
+$unity->get('config')->attach(new ConsoleConfig($unity->config),10);
+$unity->config->attach(new UserConfig($unity->config));
 
 // Register the Event Class
 Event::register($unity);
@@ -46,5 +47,6 @@ CommandRunner::registerService($unity);
 // Console Commands
 TestsCommand::register($unity);
 RunCommand::register($unity);
+ConfigCommand::register($unity);
 
 $unity->get('command')->run();

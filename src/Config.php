@@ -19,11 +19,14 @@ class Config implements ServiceInterface, \ArrayAccess {
     public function __construct()
     {
         // Default Config
-        $this->attach(new DefaultConfig, 100);
+        $this->attach(new DefaultConfig($this), 100);
     }
 
     public function attach(ConfigInterface $configHandler, $priority = 50)
     {
+        // Hand off a reference to this class
+        $configHandler->config = $this;
+        // Store the Handler
         $this->configHandlers[] = array('handler' => $configHandler, 'priority' => $priority);
         // Rebuild the Config
         $this->rebuild();
@@ -49,6 +52,12 @@ class Config implements ServiceInterface, \ArrayAccess {
         }
 
         $this->config = $config;
+
+    }
+
+    public function asArray()
+    {
+        return $this->config;
     }
 
     // ArrayAccess
