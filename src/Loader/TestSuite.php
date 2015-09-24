@@ -1,10 +1,13 @@
 <?
 namespace Unity\Loader;
+
 use Symfony\Component\Finder\Finder;
+use Unity\Test\TestInterface;
+
 /**
  * Load an Individual Test Suite
  */
-class TestSuite {
+class TestSuite implements TestInterface {
 
     public function __construct($unity, $filePath)
     {
@@ -81,8 +84,25 @@ class TestSuite {
     public function load()
     {
         include_once $this->filePath;
-
-
         // Gather some data about the test
+    }
+
+    public function init()
+    {
+        if(!class_exists($this->name)) {
+            $this->load();
+        }
+
+        return new $this->name;
+    }
+
+    public function run()
+    {
+        $testSuite = $this->init();
+
+        foreach($this->getTests() as $name => $method) {
+            call_user_func(array($testSuite, $method));
+            echo '.';
+        }
     }
 }

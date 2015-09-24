@@ -21,6 +21,12 @@ class RunCommand extends BaseCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        
+        $dir = new \Unity\Loader\Directory($this->unity, $this->unity->baseDir . '/tests');
+
+        foreach($dir->getTests() as $testSuite) {
+            $this->unity->pushTest($testSuite);
+        }
+
+        $this->unity->stack->run();
     }
 }

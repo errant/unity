@@ -23,8 +23,8 @@ class Stack implements ServiceInterface {
 
     public function run()
     {
-        foreach($this->testStack() as $test) {
-            yield $test;
+        foreach($this->testsStack as $test) {
+            $test->run();
         }
     }
 }
